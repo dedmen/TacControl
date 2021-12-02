@@ -43,7 +43,20 @@ namespace TacControl.Droid
             {
                 o.AddXamarinFormsIntegration();
                 o.Dsn = "https://78e23a3aba34433a89f5a78e172dfcf8@o251526.ingest.sentry.io/5390642";
-                o.Release = $"TacControl@{versionInfo?.VersionName}:{versionInfo?.LongVersionCode}";
+
+                long code;
+
+                if (Android.OS.Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.P)
+                {
+                    code = versionInfo?.LongVersionCode ?? 0;
+                }
+                else
+                {
+                    code = (int)versionInfo?.VersionCode;
+                }
+
+
+                o.Release = $"TacControl@{versionInfo?.VersionName}:{code}";
                 o.Environment = //username == "Dedmen-PC\\dedmen" ? "Dev" :
                     "Alpha";
             });
